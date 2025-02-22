@@ -43,10 +43,10 @@ app = Starlette(
     debug=True,
     routes=[
         Mount("/api", routes=[
-                Route("/", lambda x: None), Route("/api/token", discord_oauth)
+                Route("/api/token", discord_oauth),
             ],
         ),
-        Mount("/static", app=StaticFiles(directory="client"), name="static"),
+        Mount("/static", app=StaticFiles(directory="static"), name="static"),
     ],
     lifespan=lifespan,
 )
