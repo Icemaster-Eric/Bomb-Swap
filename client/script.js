@@ -1,3 +1,4 @@
+const canvas = document.getElementById("cvs");
 const app = new PIXI.Application();
 await app.init({
     background: "green",
@@ -5,7 +6,7 @@ await app.init({
     antialias: true,
     autoDensity: true,
     hello: true,
-    canvas: document.getElementById("cvs")
+    canvas
 });
 
 // Load the bunny texture
@@ -36,19 +37,29 @@ gameboardBackground.width = app.screen.width;
 gameboardBackground.height = app.screen.height;
 
 let gameboardIsBeingDragged = false;
-let gameboardDragStartPos = [0, 0];
+
 gameboardBackground.on("pointerdown", (ev) => {
     gameboardIsBeingDragged = true;
-    gameboardDragStartPos = [ev.pageX, ev.pageY];
     console.log("pointerdown")
 });
-gameboardBackground.on("pointermove", (ev) => {
+document.addEventListener("keydown", (ev) => {
+    ev.key == "a"
+})
+window.addEventListener("pointermove", (ev) => {
     if (!gameboardIsBeingDragged) return;
     bunny.position.x += ev.movementX;
     bunny.position.y += ev.movementY;    
 });
 gameboardBackground.on("pointerup", (ev) => {
     gameboardIsBeingDragged = false;
+})
+canvas.addEventListener("wheel", (ev) => {
+    const minZoom = .3;
+    const maxZoom = 10;
+    const d = (ev.deltaX + ev.deltaY) / 100;
+    const newScale = Math.max(minZoom, Math.min(maxZoom, bunny.scale.x + d));
+    bunny.scale.set(newScale);
+    console.log(gameboardLayer.scale)
 })
 gameboardBackground.eventMode = "static";
 const gameboardLayer = new PIXI.Container();

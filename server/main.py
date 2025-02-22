@@ -46,7 +46,7 @@ app = Starlette(
                 Route("/api/token", discord_oauth),
             ],
         ),
-        Mount("/static", app=StaticFiles(directory="static"), name="static"),
+        Mount("/client", app=StaticFiles(directory="client"), name="client"),
     ],
     lifespan=lifespan,
 )
@@ -54,3 +54,4 @@ app = Starlette(
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=5173)
+    
